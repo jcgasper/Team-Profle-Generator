@@ -1,0 +1,26 @@
+{
+  "name": "team-profle-generator",
+  "version": "1.0.0",
+  "description": "Team Profile Generator",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jcgasper/Team-Profle-Generator.git"
+  },
+  "author": "Jacob Gasper",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jcgasper/Team-Profle-Generator/issues"
+  },
+  "homepage": "https://github.com/jcgasper/Team-Profle-Generator#readme",
+  "dependencies": {
+    "inquirer": "^8.1.5",
+    "jest": "^27.2.4"
+  }
+}
