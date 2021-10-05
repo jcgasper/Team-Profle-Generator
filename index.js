@@ -11,8 +11,6 @@ const createHTML = require("./src/createhtml");
 
 const employeeArray = [];
 
-let count = 0;
-
 function init() {
 createManager();
 }
@@ -84,12 +82,13 @@ function createManager() {
         console.log(manager);
         
         employeeArray.push(manager);
+        createEmployees();
+   
     })
 
     
-    
-        createEmployees;
-   
+        
+        
 };
 
 
@@ -107,11 +106,11 @@ function createEmployees() {
             type: 'input',
             name: 'name',
             message: "What's the name of the employee?", 
-            validate: nameInput => {
-                if (nameInput) {
+            validate: input => {
+                if (input) {
                     return true;
                 } else {
-                    console.log ("Please enter an employee's name!");
+                    console.log ("Please enter a name!");
                     return false; 
                 }
             }
@@ -120,9 +119,9 @@ function createEmployees() {
             type: 'input',
             name: 'id',
             message: "Please enter the employee's ID.",
-            validate: nameInput => {
-                if  (isNaN(nameInput)) {
-                    console.log ("Please enter the employee's ID!")
+            validate: input => {
+                if  (isNaN(input)) {
+                    console.log ("Please enter a number")
                     return false; 
                 } else {
                     return true;
@@ -133,12 +132,12 @@ function createEmployees() {
             type: 'input',
             name: 'email',
             message: "Please enter the employee's email.",
-            validate: email => {
-                valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
-                if (valid) {
+            validate: input => {
+                
+                if (input) {
                     return true;
                 } else {
-                    console.log ('Please enter an email!')
+                    console.log ('Please enter a email!')
                     return false; 
                 }
             }
@@ -146,40 +145,40 @@ function createEmployees() {
         {
             type: 'input',
             name: 'github',
-            message: "Please enter the employee's github username.",
+            message: "Please enter the Engineers's github profile",
             when: (input) => input.role === "Engineer",
-            validate: nameInput => {
-                if (nameInput ) {
+            validate: input => {
+                if (input ) {
                     return true;
                 } else {
-                    console.log ("Please enter the employee's github username!")
+                    console.log ("Please enter the Engineers's github profile")
                 }
             }
         },
         {
             type: 'input',
             name: 'school',
-            message: "Please enter the intern's school",
+            message: "Please enter the intern's school/University",
             when: (input) => input.role === "Intern",
-            validate: nameInput => {
-                if (nameInput) {
+            validate: input => {
+                if (input) {
                     return true;
                 } else {
-                    console.log ("Please enter the intern's school!")
+                    console.log ("Please enter a school/university name!")
                 }
             }
         },
         {
             type: 'confirm',
-            name: 'confirmAddEmployee',
-            message: 'Would you like to add more team members?',
+            name: 'confirmAnotherEmployee',
+            message: 'Would you like to add another team member?',
             default: false
         }
     ])
     .then(employeeData => {
         // data for employee types 
 
-        let { name, id, email, role, github, school, confirmAddEmployee } = employeeData; 
+        let { name, id, email, role, github, school, confirmAnotherEmployee } = employeeData; 
         let employee; 
 
         if (role === "Engineer") {
@@ -193,12 +192,12 @@ function createEmployees() {
             console.log(employee);
         }
 
-        teamArray.push(employee); 
+        employeeArray.push(employee); 
 
-        if ((confirmAddEmployee) && (count<3)) {
-            return addEmployee(teamArray); 
+        if (confirmAnotherEmployee) {
+            return addEmployee(employeeArray); 
         } else {
-            return teamArray;
+            return employeeArray;
         }
     });
 
