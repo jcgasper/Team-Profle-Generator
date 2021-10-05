@@ -9,15 +9,28 @@ const Manager = require("./lib/Manager");
 
 const createHTML = require("./src/createhtml");
 
+//array of generated profiles
 const employeeArray = [];
 
+//init function runs program
 function init() {
-createManager();
+createManager()
+.then(createEmployees)
+.then(employeeArray => {
+    return createHTML(employeeArray);
+})
+.then(HTML => {
+    return createFile(HTML);
+})
+.catch(error => {
+    console.log(error);
+})
+
 }
 
 function createManager() {
     console.log("CREATING MANAGER PROFILE");
-    inquirer.prompt ([
+    return inquirer.prompt ([
         {
             type: 'input',
             name: 'name',
@@ -82,8 +95,7 @@ function createManager() {
         console.log(manager);
         
         employeeArray.push(manager);
-        createEmployees();
-   
+        
     })
 
     
@@ -95,7 +107,7 @@ function createManager() {
 function createEmployees() {
     console.log("ADD ADDITIONAL EMPLOYEES (up to 4)")
 
-    inquirer.prompt ([
+   return inquirer.prompt ([
         {
             type: 'list',
             name: 'role',
@@ -195,7 +207,7 @@ function createEmployees() {
         employeeArray.push(employee); 
 
         if (confirmAnotherEmployee) {
-            return addEmployee(employeeArray); 
+            return createEmployees(employeeArray); 
         } else {
             return employeeArray;
         }
@@ -203,14 +215,24 @@ function createEmployees() {
 
 
 
-
-
-
 }
     
 
   
+function createFile(input) {
 
+    fs.writeFile('./dist/index.html', input, err => {
+        // catch possible error 
+        if (err) {
+            console.log(err);
+            return;
+        // when the profile has been created 
+        } else {
+            console.log("Team Profile has been generated (check dist folder)")
+        }
+    })
+
+};
 
 
 
